@@ -12,34 +12,29 @@ jobs:
   teste-e-analise:
     name: Testes e SonarCloud
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Necessário para análise do SonarCloud
-      
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
-      
       - name: Instalar dependências
         run: npm ci
-      
       - name: Executar testes
         run: npm test
         continue-on-error: true  # Não quebrar pipeline se testes falharem
-      
       - name: Executar testes com cobertura
         run: npm run test:coverage
         continue-on-error: true
-      
-    sonarqube:
-      name: SonarQube
-      runs-on: windows-latest
-      steps:
+
+  sonarqube:
+    name: SonarQube
+    runs-on: windows-latest
+    steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
@@ -47,11 +42,9 @@ jobs:
         uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      
       - name: Verificar cobertura de testes
         run: npm run coverage:check
         continue-on-error: true
-      
       - name: Upload de relatório de cobertura
         uses: actions/upload-artifact@v4
         if: always()
@@ -59,7 +52,6 @@ jobs:
           name: coverage-report
           path: coverage/
           retention-days: 30
-      
       - name: Comentar resultado no PR
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
