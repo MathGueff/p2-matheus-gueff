@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/api-p2
+  IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/api-p2
 
 jobs:
   versionar:
@@ -29,7 +29,7 @@ jobs:
         id: versao
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_TOKEN }}
           default_bump: patch
           release_branches: main
           tag_prefix: v
@@ -59,8 +59,8 @@ jobs:
       - name: Login no Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
       
       - name: Extrair metadados Docker
         id: meta
@@ -95,4 +95,4 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Visualizar no Docker Hub:**" >> $GITHUB_STEP_SUMMARY
-          echo "https://hub.docker.com/r/${{ secrets.DOCKER_USERNAME }}/api-p2" >> $GITHUB_STEP_SUMMARY
+          echo "https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/api-p2" >> $GITHUB_STEP_SUMMARY
