@@ -29,7 +29,7 @@ jobs:
         id: versao
         uses: mathieudutour/github-tag-action@v6.2
         with:
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           default_bump: patch
           release_branches: main
           tag_prefix: v
