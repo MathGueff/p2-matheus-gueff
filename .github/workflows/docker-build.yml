@@ -95,4 +95,4 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Visualizar no Docker Hub:**" >> $GITHUB_STEP_SUMMARY
-          echo "https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/api-p2" >> $GITHUB_STEP_SUMMARY
+          echo "https://hub.docker.com/r/${{ secrets.DOCKERHUB_USERNAME }}/p2-matheus-gueff" >> $GITHUB_STEP_SUMMARY
