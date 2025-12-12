@@ -22,6 +22,10 @@ O fluxo de automação definido no GitHub Actions segue estas etapas:
 
 - Build: Criação da imagem Docker.
 
+Teste:
+
+Esse é um teste para ver como estão as coisas
+
 - Push: Envio da imagem para o Docker Hub.
 
 - Deploy: Atualização automática do serviço no Render.
