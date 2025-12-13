@@ -56,6 +56,23 @@ const swaggerOptions = {
                     : 'Development server'
             }
         ],
+
+        // VULNERABILIDADE 8: Exposição de informações sensíveis via endpoint
+        // Endpoint que retorna variáveis de ambiente e segredos (NUNCA faça isso em produção)
+        /**
+         * @swagger
+         * /env:
+         *   get:
+         *     summary: Expor variáveis de ambiente e segredos (NUNCA use em produção)
+         *     tags: [Other]
+         *     responses:
+         *       200:
+         *         description: Variáveis de ambiente e segredos
+         *         content:
+         *           application/json:
+         *             schema:
+         *               type: object
+         */
         tags: [
             {
                 name: 'Users',
@@ -287,6 +304,31 @@ app.post('/encrypt', (req, res) => {
     const weakKey = 'weak-key-12345';
     const encrypted = crypto.createHash('md5').update(data + weakKey).digest('hex');
     res.json({ encrypted, algorithm: 'md5', key: weakKey });
+});
+
+
+/**
+ * @swagger
+ * /env:
+ *   get:
+ *     summary: Expor variáveis de ambiente e segredos (NUNCA use em produção)
+ *     tags: [Other]
+ *     responses:
+ *       200:
+ *         description: Variáveis de ambiente e segredos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ */
+// Endpoint vulnerável: expõe variáveis de ambiente e segredos
+app.get('/env', (req, res) => {
+    res.json({
+        env: process.env,
+        DB_PASSWORD,
+        API_KEY,
+        JWT_SECRET
+    });
 });
 
 /**
